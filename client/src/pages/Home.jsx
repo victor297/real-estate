@@ -30,7 +30,9 @@ export default function Home() {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?offer=true&limit=4");
+        const res = await fetch(
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?offer=true&limit=4"
+        );
         const data = await res.json();
         setOfferListings(data);
         fetchRentListings();
@@ -41,7 +43,9 @@ export default function Home() {
 
     const fetchRentListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=rent&limit=4");
+        const res = await fetch(
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?type=rent&limit=4"
+        );
         const data = await res.json();
         setRentListings(data);
         fetchSaleListings();
@@ -52,7 +56,9 @@ export default function Home() {
 
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?type=sale&limit=4");
+        const res = await fetch(
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?type=sale&limit=4"
+        );
         const data = await res.json();
         setSaleListings(data);
         fetchRoomSelfConListings();
@@ -64,7 +70,7 @@ export default function Home() {
     const fetchRoomSelfConListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?category=room-self-con&limit=4"
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=room-self-con&limit=4"
         );
         const data = await res.json();
         setRoomSelfConListings(data);
@@ -77,7 +83,7 @@ export default function Home() {
     const fetchRoomAndParlourListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?category=room-and-parlour&limit=4"
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=room-and-parlour&limit=4"
         );
         const data = await res.json();
         setRoomAndParlourListings(data);
@@ -90,7 +96,7 @@ export default function Home() {
     const fetchTwoThreeBedroomListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?category=2/3-bedroom-apartments&limit=4"
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=2/3-bedroom&limit=4"
         );
         const data = await res.json();
         setTwoThreeBedroomListings(data);
@@ -103,7 +109,7 @@ export default function Home() {
     const fetchApartmentsListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?category=apartey/apartment&limit=4"
+          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=apartey/apartment&limit=4"
         );
         const data = await res.json();
         setApartmentsListings(data);

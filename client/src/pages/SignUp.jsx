@@ -25,13 +25,16 @@ export default function SignUp() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formData, role }),
-      });
+      const res = await fetch(
+        "https://real-estate-backend-h3o0.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...formData, role }),
+        }
+      );
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
