@@ -1,23 +1,18 @@
 import React from "react";
 import { MdCall, MdLocationOn, MdMenu, MdMessage } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaHome } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { categories } from "../utils/categories";
+import HorizontalScroll from "./HorizontalScroll";
 
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const navigation = [
-    { name: "Home", href: "#", current: true },
-    { name: "Listings", href: "#", current: true },
-    { name: "Dashboard", href: "#", current: true },
-    { name: "Buy", href: "#", current: false },
-    { name: "Rent", href: "#", current: false },
-    { name: "Profile", href: "#", current: false },
-  ];
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
@@ -65,11 +60,8 @@ export default function Navbar() {
                 to="/"
               >
                 <span className="flex items-center gap-3 my-auto">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/5faf110e20c944470107017167b4024baa25c6a80addb88fedc5cb2d0ef4feba?apiKey=fe29e682ab624929963eadc91ca4ec19&"
-                    className="aspect-[2.22] object-contain object-center w-5 fill-white overflow-hidden shrink-0 max-w-full my-auto"
-                  />
+                  <FaHome size={25} />
+
                   <div className="text-white text-base italic font-bold  self-stretch grow whitespace-nowrap">
                     {" "}
                     HomeNow{" "}
@@ -79,7 +71,7 @@ export default function Navbar() {
               {/* Search form */}
               <form
                 onSubmit={handleSubmit}
-                className="bg-slate-100 p-1 sm:p-3 rounded-full px-2 flex items-center  lg:ml-32"
+                className="bg-slate-100 p-1 sm:p-3 rounded-full px-2 sm:flex items-center hidden  "
               >
                 <input
                   type="text"
@@ -104,68 +96,26 @@ export default function Navbar() {
           </div>
 
           {/* Navigation items */}
+
           <div
             className={
-              "lg:flex items-center m-auto" + (navbarOpen ? " flex" : " hidden")
+              "lg:flex sm:items-center items-end ml-auto" +
+              (navbarOpen ? " flex " : " hidden")
             }
             id="example-navbar-danger"
           >
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto justify-center items-center">
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  to={"/"}
-                >
-                  <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">Home</span>
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  to={"/"}
-                >
-                  <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">For Rent</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  to={"/"}
-                >
-                  <i className="fab fa-pinterest text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">For Sell</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  to={"/"}
-                >
-                  <i className="fab fa-pinterest text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">Service apartment</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  to={"/"}
-                >
-                  <i className="fab fa-pinterest text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">More..</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  to={"/"}
-                >
-                  <i className="fab fa-pinterest text-lg leading-lg text-white opacity-75"></i>
-                  <span className="ml-2">contact us</span>
-                </Link>
-              </li>
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto justify-center sm:items-center items-end">
+              {categories.map((category) => (
+                <li className="nav-item" key={category.label}>
+                  <Link
+                    className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                    to={category.link}
+                  >
+                    <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i>
+                    <span className="ml-2">{category.label}</span>
+                  </Link>
+                </li>
+              ))}
 
               {currentUser ? (
                 currentUser.role === "agent" || currentUser.role === "admin" ? (
@@ -180,12 +130,16 @@ export default function Navbar() {
                 ) : null
               ) : null}
               <Link to="/profile">
+                {" "}
                 {currentUser ? (
-                  <img
-                    className="rounded-full h-10 w-10 object-cover border-blue-800 border-[3px]"
-                    src={currentUser.avatar}
-                    alt="profile"
-                  />
+                  <div className="flex items-center gap-2 text-white font-semibold">
+                    Profile
+                    <img
+                      className="rounded-full h-10 w-10 object-cover border-blue-800 border-[3px]"
+                      src={currentUser.avatar}
+                      alt="profile"
+                    />
+                  </div>
                 ) : (
                   <li className=" px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75">
                     {" "}
@@ -196,6 +150,22 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-slate-100 p-1 sm:p-3 rounded-full px-2 mx-3 flex items-center w-full sm:hidden "
+        >
+          <input
+            type="text"
+            placeholder="search.."
+            className="bg-transparent focus:outline-none w-24 sm:w-96"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className=" ml-auto">
+            <FaSearch className="text-blue-600 self-end" />
+          </button>
+        </form>
+        <HorizontalScroll />
       </nav>
     </>
   );

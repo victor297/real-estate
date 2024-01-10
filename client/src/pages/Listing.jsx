@@ -9,14 +9,12 @@ import {
   FaBath,
   FaBed,
   FaChair,
-  FaMapMarkedAlt,
   FaMapMarkerAlt,
   FaParking,
   FaShare,
 } from "react-icons/fa";
 import Contact from "../components/Contact";
-
-// https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
+import ImageModal from "../components/ImageModal";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -25,6 +23,8 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // State to track the selected image
+
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
@@ -52,6 +52,15 @@ export default function Listing() {
     };
     fetchListing();
   }, [params.listingId]);
+  // Function to open the modal when an image is clicked
+  const openImageModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+  };
+
+  // Function to close the modal
+  const closeImageModal = () => {
+    setSelectedImage(null);
+  };
 
   return (
     <main>
@@ -61,16 +70,39 @@ export default function Listing() {
       )}
       {listing && !loading && !error && (
         <div>
-          <Swiper navigation>
-            {listing.imageUrls.map((url) => (
-              <SwiperSlide key={url}>
+          <Swiper
+            navigation
+            loop
+            spaceBetween={10}
+            slidesPerView={1}
+            className="sm:h-[590px] h-[300px]"
+          >
+            {listing.imageUrls.map((url, index) => (
+              <SwiperSlide key={index}>
                 <div
-                  className="h-[550px]"
+                  className="cursor-pointer"
                   style={{
                     background: `url(${url}) center no-repeat`,
                     backgroundSize: "cover",
+                    height: "100%",
+                    width: "100%",
+                    position: "relative",
                   }}
-                ></div>
+                  onClick={() => openImageModal(url)}
+                >
+                  <img
+                    src={url}
+                    alt={`Slide ${index + 1}`}
+                    style={{
+                      objectFit: "contain",
+                      width: "100%",
+                      height: "100%",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                    }}
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -93,10 +125,10 @@ export default function Listing() {
           )}
           <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
             <p className="text-2xl font-semibold">
-              {listing.name} - ${" "}
+              {listing.name} - ₦{" "}
               {listing.offer
-                ? listing.discountPrice.toLocaleString("en-US")
-                : listing.regularPrice.toLocaleString("en-US")}
+                ? listing.discountPrice.toLocaleString("NGN")
+                : listing.regularPrice.toLocaleString("NGN")}
               {listing.type === "rent" && " / month"}
             </p>
             <p className="flex items-center mt-6 gap-2 text-slate-600  text-sm">
@@ -150,6 +182,9 @@ export default function Listing() {
             {contact && <Contact listing={listing} />}
           </div>
         </div>
+      )}
+      {selectedImage && (
+        <ImageModal imageUrl={selectedImage} onClose={closeImageModal} />
       )}
     </main>
   );
