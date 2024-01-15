@@ -35,7 +35,7 @@ export default function Navbar() {
         <span className="self-stretch flex items-stretch justify-between gap-2">
           <MdLocationOn color="white" size={20} />
           <div className="text-white text-xs sm:text-sm leading-5 self-center grow whitespace-nowrap my-auto">
-            Rezilla, 18 Grattan St, Brooklyn
+            oshogbo, 18 ade olu St, osun
           </div>
         </span>
         <span className="self-stretch flex items-stretch justify-between gap-3.5">
