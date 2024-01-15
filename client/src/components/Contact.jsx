@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { url } from "../utils/api";
 
 export default function Contact({ listing }) {
   const [landlord, setLandlord] = useState(null);
@@ -12,9 +13,7 @@ export default function Contact({ listing }) {
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
-        const res = await fetch(
-          `https://real-estate-backend-h3o0.onrender.com/api/user/${listing.userRef}`
-        );
+        const res = await fetch(`${url}/user/${listing.userRef}`);
         const data = await res.json();
         setLandlord(data);
       } catch (error) {

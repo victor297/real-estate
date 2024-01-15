@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import Contact from "../components/Contact";
 import ImageModal from "../components/ImageModal";
+import { url } from "../utils/api";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -33,9 +34,7 @@ export default function Listing() {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          `https://real-estate-backend-h3o0.onrender.com/api/listing/get/${params.listingId}`
-        );
+        const res = await fetch(`${url}/listing/get/${params.listingId}`);
         const data = await res.json();
         if (data.success === false) {
           setError(true);

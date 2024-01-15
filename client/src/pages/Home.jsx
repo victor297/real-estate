@@ -7,6 +7,7 @@ import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 import { useSelector } from "react-redux";
 import Header from "../components/Header";
+import { url } from "../utils/api";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -30,9 +31,7 @@ export default function Home() {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?offer=true&limit=4"
-        );
+        const res = await fetch(`${url}/listing/get?offer=true&limit=4`);
         const data = await res.json();
         setOfferListings(data);
         fetchRentListings();
@@ -43,9 +42,7 @@ export default function Home() {
 
     const fetchRentListings = async () => {
       try {
-        const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?type=rent&limit=4"
-        );
+        const res = await fetch(`${url}/listing/get?type=rent&limit=4`);
         const data = await res.json();
         setRentListings(data);
         fetchSaleListings();
@@ -56,9 +53,7 @@ export default function Home() {
 
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?type=sale&limit=4"
-        );
+        const res = await fetch(`${url}/listing/get?type=sale&limit=4`);
         const data = await res.json();
         setSaleListings(data);
         fetchRoomSelfConListings();
@@ -70,7 +65,7 @@ export default function Home() {
     const fetchRoomSelfConListings = async () => {
       try {
         const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=room-self-con&limit=4"
+          `${url}/listing/get?category=room-self-con&limit=4`
         );
         const data = await res.json();
         setRoomSelfConListings(data);
@@ -83,7 +78,7 @@ export default function Home() {
     const fetchRoomAndParlourListings = async () => {
       try {
         const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=room-and-parlour&limit=4"
+          `${url}/listing/get?category=room-and-parlour&limit=4`
         );
         const data = await res.json();
         setRoomAndParlourListings(data);
@@ -96,7 +91,7 @@ export default function Home() {
     const fetchTwoThreeBedroomListings = async () => {
       try {
         const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=2/3-bedroom&limit=4"
+          `${url}/listing/get?category=2/3-bedroom&limit=4`
         );
         const data = await res.json();
         setTwoThreeBedroomListings(data);
@@ -109,7 +104,7 @@ export default function Home() {
     const fetchApartmentsListings = async () => {
       try {
         const res = await fetch(
-          "https://real-estate-backend-h3o0.onrender.com/api/listing/get?category=apartey/apartment&limit=4"
+          `${url}/listing/get?category=apartey/apartment&limit=4`
         );
         const data = await res.json();
         setApartmentsListings(data);
@@ -226,22 +221,20 @@ export default function Home() {
                       srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/e9c6b27869e41df323d68a0d772fcc4ab4a02287e096d3e37a471b1d626093b3?apiKey=fe29e682ab624929963eadc91ca4ec19&"
                       className="aspect-[4.31] object-contain object-center w-[155px] overflow-hidden shrink-0 max-w-full my-auto"
                     />
-                    <div className="text-zinc-800 text-xl font-medium">
-                      72k+ Happy <br />
-                      Customers
+                    <div className="text-zinc-800 text-sm sm:text-xl font-medium overflow-auto ">
+                      72k+ Happy Customers
                     </div>
                   </span>
                 </div>
                 <div className="flex flex-col items-stretch w-[47%] ml-5 max-md:w-full max-md:ml-0">
-                  <span className="shadow-2xl bg-white flex grow items-stretch justify-between gap-2.5 w-full px-10 py-5 rounded-[50px] max-md:mt-8 max-md:px-5">
+                  <span className="shadow-2xl bg-white flex grow items-stretch gap-2.5 w-full px-10 py-5 rounded-[50px] max-md:mt-8 max-md:px-5">
                     <img
                       loading="lazy"
                       srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/47a96c0ca4c7f10fa9cc66f18f49335bf794904ad33aab69edee1b38fa5744de?apiKey=fe29e682ab624929963eadc91ca4ec19&"
                       className="aspect-square object-contain object-center w-[60px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
                     />
-                    <div className="text-zinc-800 text-xl font-medium my-auto">
-                      200+ New <br />
-                      Listings Everyday!
+                    <div className="text-zinc-800 text-sm sm:text-xl font-medium my-auto overflow-auto">
+                      200+ New Listings Everyday!
                     </div>
                   </span>
                 </div>

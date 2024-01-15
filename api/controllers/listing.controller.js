@@ -92,7 +92,8 @@ export const getListings = async (req, res, next) => {
     }
 
     const searchTerm = req.query.searchTerm || "";
-    const category = req.query.category || ""; // Added category filter
+    const category = req.query.category || "";
+    const address = req.query.address || "";
 
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
@@ -100,6 +101,7 @@ export const getListings = async (req, res, next) => {
     const listings = await Listing.find({
       name: { $regex: searchTerm, $options: "i" },
       offer,
+      address: { $regex: address, $options: "i" },
       furnished,
       parking,
       type,

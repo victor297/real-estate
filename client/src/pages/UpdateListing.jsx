@@ -8,6 +8,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { url } from "../utils/api";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -37,9 +38,7 @@ export default function CreateListing() {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
-      const res = await fetch(
-        `https://real-estate-backend-h3o0.onrender.com/api/listing/get/${listingId}`
-      );
+      const res = await fetch(`${url}/listing/get/${listingId}`);
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
@@ -157,19 +156,16 @@ export default function CreateListing() {
         return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch(
-        `https://real-estate-backend-h3o0.onrender.com/api/listing/update/${params.listingId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...formData,
-            userRef: currentUser._id,
-          }),
-        }
-      );
+      const res = await fetch(`${url}/listing/update/${params.listingId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          userRef: currentUser._id,
+        }),
+      });
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
@@ -233,6 +229,10 @@ export default function CreateListing() {
             onChange={handleChange}
             value={formData.address}
           />
+          <label htmlFor="" className="text-red-500">
+            {" "}
+            input address in this format .....oke bale, oshogbo, osun
+          </label>
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">
               <input
@@ -326,7 +326,7 @@ export default function CreateListing() {
               <div className="flex flex-col items-center">
                 <p>Regular price</p>
                 {formData.type === "rent" && (
-                  <span className="text-xs">($ / month)</span>
+                  <span className="text-xs">(₦ / year)</span>
                 )}
               </div>
             </div>

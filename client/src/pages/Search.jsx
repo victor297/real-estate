@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import { url } from "../utils/api";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -12,8 +13,10 @@ export default function Search() {
     offer: false,
     sort: "created_at",
     order: "desc",
+    address: "",
     category: "",
   });
+  const [showfilter, setshowFilter] = useState(true);
 
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
@@ -30,6 +33,7 @@ export default function Search() {
     const sortFromUrl = urlParams.get("sort");
     const orderFromUrl = urlParams.get("order");
     const categoryFromUrl = urlParams.get("category");
+    const addressFromUrl = urlParams.get("address");
 
     if (
       searchTermFromUrl ||
@@ -50,6 +54,7 @@ export default function Search() {
         sort: sortFromUrl || "created_at",
         order: orderFromUrl || "desc",
         category: categoryFromUrl || "",
+        address: addressFromUrl || "",
       });
     }
 
@@ -57,9 +62,7 @@ export default function Search() {
       setLoading(true);
       setShowMore(false);
       const searchQuery = urlParams.toString();
-      const res = await fetch(
-        `https://real-estate-backend-h3o0.onrender.com/api/listing/get?${searchQuery}`
-      );
+      const res = await fetch(`${url}/listing/get?${searchQuery}`);
       const data = await res.json();
       if (data.length > 8) {
         setShowMore(true);
@@ -87,6 +90,9 @@ export default function Search() {
     }
     if (e.target.id === "category") {
       setSidebardata({ ...sidebardata, category: e.target.value });
+    }
+    if (e.target.id === "address") {
+      setSidebardata({ ...sidebardata, address: e.target.value });
     }
 
     if (
@@ -134,6 +140,7 @@ export default function Search() {
     urlParams.set("sort", sidebardata.sort);
     urlParams.set("order", sidebardata.order);
     urlParams.set("category", sidebardata.category); // Added category
+    urlParams.set("address", sidebardata.address); // Added category
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
     // setSidebardata({
@@ -154,22 +161,37 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
-    const res = await fetch(
-      `https://real-estate-backend-h3o0.onrender.com/api/listing/get?${searchQuery}`
-    );
+    const res = await fetch(`${url}/listing/get?${searchQuery}`);
     const data = await res.json();
     if (data.length < 9) {
       setShowMore(false);
     }
     setListings([...listings, ...data]);
   };
+  const toggleFilter = () => {
+    if (!showfilter) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    setshowFilter(!showfilter);
+  };
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
+      <button
+        className="fixed right-4 bottom-4 bg-blue-500 text-white px-4 py-2 rounded-full sm:hidden"
+        onClick={toggleFilter}
+      >
+        {showfilter ? "Hide Filters" : "Show Filters"}
+      </button>
+      <div
+        className={`${
+          showfilter ? "block" : "hidden"
+        } p-7 md:block border-b-2 md:border-r-2 md:min-h-screen`}
+      >
+        {" "}
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
-              Search Term:
+              general Search:
             </label>
             <input
               type="text"
@@ -177,6 +199,19 @@ export default function Search() {
               placeholder="Search..."
               className="border rounded-lg p-3 w-full"
               value={sidebardata.searchTerm}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="whitespace-nowrap font-semibold">
+              Search Location:
+            </label>
+            <input
+              type="text"
+              id="address"
+              placeholder="Search by location"
+              className="border rounded-lg p-3 w-full"
+              value={sidebardata.address}
               onChange={handleChange}
             />
           </div>
@@ -287,8 +322,8 @@ export default function Search() {
         </form>
       </div>
       <div className="flex-1">
-        <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
-          Listing results:
+        <h1 className="sm:text-3xl text-center  sm:text-start font-semibold border-b p-3 text-slate-700 mt-5">
+          Available Listings
         </h1>
         <div className="p-7 flex flex-wrap gap-4">
           {!loading && listings.length === 0 && (

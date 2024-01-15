@@ -8,6 +8,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { url } from "../utils/api";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -140,19 +141,16 @@ export default function CreateListing() {
         return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch(
-        "https://real-estate-backend-h3o0.onrender.com/api/listing/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...formData,
-            userRef: currentUser._id,
-          }),
-        }
-      );
+      const res = await fetch(`${url}/listing/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          userRef: currentUser._id,
+        }),
+      });
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
@@ -198,7 +196,6 @@ export default function CreateListing() {
               <option value="apartey/apartment">Apartey/Apartment</option>
             </select>
           </div>
-
           <textarea
             type="text"
             placeholder="Description"
@@ -216,7 +213,11 @@ export default function CreateListing() {
             required
             onChange={handleChange}
             value={formData.address}
-          />
+          />{" "}
+          <label htmlFor="" className="text-red-500">
+            {" "}
+            input address in this format .....oke bale, oshogbo, osun
+          </label>
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">
               <input
@@ -311,7 +312,7 @@ export default function CreateListing() {
               <div className="flex flex-col items-center">
                 <p>Regular price</p>
                 {formData.type === "rent" && (
-                  <span className="text-xs">($ / month)</span>
+                  <span className="text-xs">(₦ / year)</span>
                 )}
               </div>
             </div>
