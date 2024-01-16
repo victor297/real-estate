@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
       default: "user",
       required: [true, "Validate whom you are"],
     },
+    imageUrl: String,
     avatar: {
       type: String,
       default:
