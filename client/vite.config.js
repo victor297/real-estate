@@ -11,10 +11,6 @@ export default defineConfig({
         secure: false,
       },
     },
-  },build: {
-    rollupOptions: {
-      external: [html2canvas],
-    },
   },
 
   plugins: [react()],
