@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import {
 import Contact from "../components/Contact";
 import ImageModal from "../components/ImageModal";
 import { url } from "../utils/api";
+import PayButton from "../components/Paystack";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -27,8 +28,9 @@ export default function Listing() {
   const [selectedImage, setSelectedImage] = useState(null); // State to track the selected image
 
   const params = useParams();
+  const navigate = useNavigate;
   const { currentUser } = useSelector((state) => state.user);
-
+  console.log("currentUser", currentUser);
   useEffect(() => {
     console.log("listing", listing);
     const fetchListing = async () => {
@@ -128,7 +130,7 @@ export default function Listing() {
               {listing.offer
                 ? listing.discountPrice.toLocaleString("NGN")
                 : listing.regularPrice.toLocaleString("NGN")}
-              {listing.type === "rent" && " / month"}
+              {listing.type === "rent" && " / year"}
             </p>
             <p className="flex items-center mt-6 gap-2 text-slate-600  text-sm">
               <FaMapMarkerAlt className="text-green-700" />
@@ -170,15 +172,26 @@ export default function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
-            {currentUser && listing.userRef !== currentUser._id && !contact && (
-              <button
-                onClick={() => setContact(true)}
-                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
-              >
-                Contact landlord
-              </button>
-            )}
-            {contact && <Contact listing={listing} />}
+            <div className="flex gap-4">
+              {currentUser && listing.userRef !== currentUser._id && (
+                <PayButton
+                  email={currentUser.email}
+                  products={listing}
+                  totalAmount={listing.regularPrice}
+                  user={currentUser._id}
+                />
+              )}
+              {!currentUser && (
+                <Link
+                  to="/sign-in"
+                  className="bg-yellow-500 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                >
+                  kindly login to be able to pay
+                </Link>
+              )}
+              {/* {contact && <Contact listing={listing} />} */}
+              <Contact listing={listing} />
+            </div>
           </div>
         </div>
       )}

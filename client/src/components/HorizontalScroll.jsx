@@ -2,7 +2,10 @@ import { categories } from "../utils/categories";
 
 const HorizontalScroll = () => {
   return (
-    <div className="mt-1 text-white overflow-x-auto whitespace-nowrap sm:hidden">
+    <div
+      style={{ overflowX: "auto", overflowY: "hidden" }}
+      className="mt-1 text-white whitespace-nowrap sm:hidden"
+    >
       <div className="flex items-center">
         {categories.map((item) => (
           <span key={item.label} className="px-3">

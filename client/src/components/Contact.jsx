@@ -26,12 +26,12 @@ export default function Contact({ listing }) {
     <>
       {landlord && (
         <div className="flex flex-col gap-2">
-          <p>
+          {/* <p>
             Contact <span className="font-semibold">{landlord.username}</span>{" "}
             for{" "}
             <span className="font-semibold">{listing.name.toLowerCase()}</span>
-          </p>
-          <textarea
+          </p> */}
+          {/* <textarea
             name="message"
             id="message"
             rows="2"
@@ -39,15 +39,15 @@ export default function Contact({ listing }) {
             onChange={onChange}
             placeholder="Enter your message here..."
             className="w-full border p-3 rounded-lg"
-          ></textarea>
+          ></textarea> */}
 
           <Link
             // to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
             to={"https://wa.me/+2349063964547"}
             target="_blank"
-            className="bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95"
+            className="bg-violet-500 text-white text-center p-3 uppercase rounded-lg hover:opacity-95"
           >
-            Send Message
+            Message Us
           </Link>
         </div>
       )}

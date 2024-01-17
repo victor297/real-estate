@@ -150,7 +150,7 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
-        <form
+        {/* <form
           onSubmit={handleSubmit}
           className="bg-slate-100 p-1 sm:p-3 rounded-full px-2 mx-3 flex items-center w-full sm:hidden "
         >
@@ -164,7 +164,7 @@ export default function Navbar() {
           <button className=" ml-auto">
             <FaSearch className="text-blue-600 self-end" />
           </button>
-        </form>
+        </form> */}
         <HorizontalScroll />
       </nav>
     </>
