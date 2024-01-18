@@ -88,7 +88,7 @@ router.post(
   }
 );
 
-router.get("/orders", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
     res.status(200).json(orders);
@@ -96,17 +96,17 @@ router.get("/orders", async (req, res, next) => {
     res.status(500).json({ message: "Error fetching orders" });
   }
 });
-router.get("/orders/:userId", async (req, res, next) => {
+router.get("/orders/:id", async (req, res, next) => {
   try {
-    const userId = req.params.userId;
-
+    const userId = req.params.id;
+    console.log("userId", userId);
     // Validate if the userId is a valid ObjectId
     if (!ObjectId.isValid(userId)) {
       return next(errorHandler(400, "Invalid user ID"));
     }
 
     const orders = await Order.find({ user: new ObjectId(userId) });
-
+    console.log("orders", orders);
     if (!orders || orders.length === 0) {
       return next(errorHandler(404, "Orders not found for the user"));
     }
