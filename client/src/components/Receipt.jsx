@@ -19,7 +19,9 @@ function Reciept({ listing }) {
       doc.save("receipt.pdf");
     });
   };
-
+  if (!listing) {
+    return <p>No Order founf kindly make purchase to view order or signin</p>;
+  }
   return (
     <div className=" bg-blue-200 m-auto h-auto rounded-md">
       <div className="receipt-box">
