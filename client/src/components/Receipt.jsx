@@ -78,7 +78,7 @@ function Reciept({ listing }) {
 
           <div className="data-row text-base">
             <span className="font-weight">{listing.product.name}</span>
-            <span>type : {listing.product.type}</span>
+            <span> Type: {listing.product.type}</span>
           </div>
           <p>---------------------------------------</p>
           <div className="colored-row mt-3 text-base">
