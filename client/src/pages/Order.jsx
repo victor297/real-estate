@@ -75,7 +75,7 @@ function Order(props) {
 
                   <Modal open={open} onClose={() => setOpen(false)}>
                     <div className="mx-auto my-4 ">
-                      <Reciept />
+                      {listing && <Reciept listing={listing} />}
                     </div>
                   </Modal>
                 </>
