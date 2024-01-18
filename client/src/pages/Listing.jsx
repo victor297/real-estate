@@ -95,7 +95,7 @@ export default function Listing() {
                     src={url}
                     alt={`Slide ${index + 1}`}
                     style={{
-                      objectFit: "contain",
+                      // objectFit: "contain",
                       width: "100%",
                       height: "100%",
                       position: "absolute",
