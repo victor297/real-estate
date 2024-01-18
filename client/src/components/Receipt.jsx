@@ -4,7 +4,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { MdCall, MdEmail, MdWebStories, MdWhatsapp } from "react-icons/md";
 
-function Reciept() {
+function Reciept({ listing }) {
   const [loader, setLoader] = useState(false);
   const downloadPDF = () => {
     const capture = document.querySelector(".actual-receipt");
@@ -73,8 +73,8 @@ function Reciept() {
           </div>
 
           <div className="data-row text-base">
-            <span className="font-weight">CREDIT</span>
-            <span>************4444</span>
+            <span className="font-weight">{listing.product.name}</span>
+            <span>type : {listing.product.type}</span>
           </div>
           <p>---------------------------------------</p>
           <div className="colored-row mt-3 text-base">
@@ -82,8 +82,8 @@ function Reciept() {
           </div>
 
           <div className="data-row text-base">
-            <span className="font-weight">Dollar a Day for Sadaqa</span>
-            <span>$ 50</span>
+            <span className="font-weight">Plan per year </span>
+            <span>₦{listing.product.regularPrice}</span>
           </div>
 
           <div className="colored-row mt-3 text-base">
@@ -92,17 +92,20 @@ function Reciept() {
           </div>
 
           <div className="data-row border-t border-gray-200 text-base">
-            <span className="font-weight">MID: 1234567</span>
-            <span className="font-weight">Sequence #SSSSSSSS</span>
+            <span className="font-weight">OrderId: {listing._id}</span>
+            <span className="font-weight"> MID: 1234567</span>
           </div>
 
           <div className="data-row border-t border-gray-200 text-base">
-            <span className="font-weight">Invoice #: AX1234ZVB5671234</span>
-            <span className="font-weight">Created: 2023-02-14 02:21:37</span>
+            <span className="font-weight">
+              referenceId#: {listing.referenceId}
+            </span>
+            <span className="font-weight"> Created: 2023-02-14 02:21:37</span>
           </div>
           <div className="data-row border-t border-gray-200 text-base">
-            <span className="font-weight">Authentication #: TEST</span>
-            <span className="font-weight">Batch #: 1234</span>
+            <span className="font-weight">
+              Authentication #: {listing.payment_status}
+            </span>
           </div>
           <div className="data-row border-t border-gray-200 text-base">
             <span className="font-weight">Transaction: APPROVED - 00</span>
