@@ -6,8 +6,7 @@ import { MdCall, MdEmail, MdWebStories, MdWhatsapp } from "react-icons/md";
 
 function Reciept({ listing }) {
   const [loader, setLoader] = useState(false);
-  console.log("listing", { listing });
-  console.log("listing", listing);
+
   const downloadPDF = () => {
     const capture = document.querySelector(".actual-receipt");
     setLoader(true);

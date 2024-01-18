@@ -30,9 +30,7 @@ export default function Listing() {
   const params = useParams();
   const navigate = useNavigate;
   const { currentUser } = useSelector((state) => state.user);
-  console.log("currentUser", currentUser);
   useEffect(() => {
-    console.log("listing", listing);
     const fetchListing = async () => {
       try {
         setLoading(true);

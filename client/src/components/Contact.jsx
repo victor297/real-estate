@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { url } from "../utils/api";
+import { toast } from "react-hot-toast";
 
 export default function Contact({ listing }) {
   const [landlord, setLandlord] = useState(null);
@@ -9,7 +10,6 @@ export default function Contact({ listing }) {
   const onChange = (e) => {
     setMessage(e.target.value);
   };
-  console.log("landlord", landlord);
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
@@ -17,7 +17,7 @@ export default function Contact({ listing }) {
         const data = await res.json();
         setLandlord(data);
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
     fetchLandlord();

@@ -12,10 +12,16 @@ import Listing from "./pages/Listing";
 import Search from "./pages/Search";
 import Order from "./pages/Order";
 import Reciept from "./components/Receipt";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        toastOptions={{
+          style: { background: "rgb(51 65 85)", color: "#fff" },
+        }}
+      />
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
 import { url } from "../utils/api";
+import { toast } from "react-hot-toast";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -59,20 +60,33 @@ export default function Search() {
     }
 
     const fetchListings = async () => {
-      setLoading(true);
-      setShowMore(false);
-      const searchQuery = urlParams.toString();
-      const res = await fetch(`${url}/listing/get?${searchQuery}`);
-      const data = await res.json();
-      if (data.length > 8) {
-        setShowMore(true);
-      } else {
+      try {
+        setLoading(true);
         setShowMore(false);
-      }
-      setListings(data);
-      setLoading(false);
-    };
+        const searchQuery = urlParams.toString();
+        const res = await fetch(`${url}/listing/get?${searchQuery}`);
 
+        if (!res.ok) {
+          // Handle non-successful HTTP response
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+
+        setListings(data);
+      } catch (error) {
+        // Handle any other errors
+        console.error("Error fetching listings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchListings();
   }, [location.search]);
 
@@ -124,7 +138,6 @@ export default function Search() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("sidebardata", sidebardata);
     if (sidebardata.category === undefined) {
       setError("kindly select the type of apartment");
       return;

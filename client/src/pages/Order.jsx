@@ -21,10 +21,7 @@ function Order(props) {
   const [error, setError] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
-  console.log("currentUser", currentUser);
-  console.log("order", order);
   useEffect(() => {
-    console.log("listing", order);
     const fetchListing = async () => {
       try {
         setLoading(true);

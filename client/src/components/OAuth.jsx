@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 export default function OAuth() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export default function OAuth() {
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      console.log("could not sign in with google", error);
+      toast.error("could not sign in with google", error);
     }
   };
   return (

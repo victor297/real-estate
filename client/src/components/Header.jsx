@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import banner from ".././image/banner.png";
+import { url } from "../utils/api";
+import { toast } from "react-hot-toast";
 
 const Header = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [address, setAddress] = useState("");
+  const [adressData, setAddressData] = useState(null);
   const tabsData = [
     {
       label: "Rent",
@@ -20,6 +23,29 @@ const Header = () => {
     },
   ];
   const navigate = useNavigate();
+  const fetchAddresses = async () => {
+    try {
+      const res = await fetch(`${url}/listing/get?""`);
+
+      if (!res.ok) {
+        // Handle non-successful HTTP response
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      setAddressData(data);
+    } catch (error) {
+      // Handle any other errors
+      console.error("Error fetching Addresses:", error);
+    }
+  };
+
+  // Call the function when the component mounts or when location.search changes
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
+
   const handleSubmit = async () => {
     try {
       navigate(
@@ -34,7 +60,7 @@ const Header = () => {
       // const data = await res.json();
       // setApartmentsListings(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 
@@ -78,30 +104,53 @@ const Header = () => {
             </div>
             {/* Show active tab content. */}
             <div className="py-4">
-              {/* <p>{tabsData[activeTabIndex].content}</p> */}
-
               <form
                 onSubmit={handleSubmit}
-                className=" p-1 sm:p-3 rounded-full px-2 flex flex-col justify-between items-center  "
+                className="p-1 sm:p-3 rounded-full px-2 flex flex-col justify-between items-center"
               >
-                {" "}
                 <p className="text-start text-white self-start sm:text-2xl font-extrabold">
-                  {" "}
                   Enter a Location
                 </p>
                 <input
                   type="text"
+                  value={address}
                   placeholder={`Search ${tabsData[activeTabIndex].label} By Location`}
-                  className="bg-slate-100 focus:outline-none p-2 rounded-md border-[1.5px] border-cyan-950  w-full"
+                  className="bg-slate-100 focus:outline-none p-2 rounded-md border-[1.5px] border-cyan-950 w-full"
                   onChange={(e) => setAddress(e.target.value)}
-                  // value={searchTerm}
-                  // onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div className="w-full bg-black mt-3 rounded-md align-middle text-center">
-                  <button className="text-white flex gap-2 align-middle items-center justify-center m-auto text-2xl p-1  sm:p-2">
-                    <FaSearch size={20} /> search
-                  </button>
+                <div className="font-sans text-center flex flex-col items-center">
+                  <div className="w-280 flex flex-col">
+                    <div className=" flex flex-col border-1 rounded-lg bg-blue-300 border-gray-300 empty:border-none max-h-60 overflow-y-auto">
+                      {/* Set max height and allow vertical scrolling */}
+                      {adressData
+                        ? adressData
+                            .filter((item) => {
+                              const searchTerm = address.toLowerCase();
+                              const presentAddress = item.address.toLowerCase();
+                              return (
+                                searchTerm &&
+                                presentAddress.includes(searchTerm)
+                              );
+                            })
+                            .slice(0, 10)
+                            .map((item) => (
+                              <div
+                                onClick={() => setAddress(item.address)}
+                                className=" cursor-pointer text-start my-2 text-xs px-2"
+                                key={item._id}
+                              >
+                                {item.address}
+                              </div>
+                            ))
+                        : null}
+                    </div>
+                  </div>
                 </div>
+                <button className="w-full bg-black mt-3 rounded-md align-middle text-center">
+                  <div className="text-white flex gap-2 align-middle items-center justify-center m-auto text-2xl p-1 sm:p-2">
+                    <FaSearch size={20} /> search
+                  </div>
+                </button>
               </form>
             </div>
           </div>

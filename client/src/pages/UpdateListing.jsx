@@ -41,7 +41,6 @@ export default function CreateListing() {
       const res = await fetch(`${url}/listing/get/${listingId}`);
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
         return;
       }
       setFormData(data);

@@ -19,10 +19,7 @@ export default function SignUp() {
   const [file, setFile] = useState("");
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  console.log("error", error);
   const navigate = useNavigate();
-  console.log("formData", formData);
-  console.log("file", file);
 
   const handleImageSubmit = async () => {
     const selectedFile = file[0];
@@ -33,7 +30,6 @@ export default function SignUp() {
         setImageUploadError(false);
 
         const downloadURL = await storeImage(selectedFile);
-        // console.log("imageUrl", downloadURL.downloadURL);
         setFormData({
           ...formData,
           imageUrl: downloadURL.downloadURL,
@@ -58,8 +54,6 @@ export default function SignUp() {
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
-      console.log("  file.name", file);
-      console.log("  file.type", file.type);
 
       const fileName = `kyc/${new Date().getTime()}_${formData.username}_${
         file.name
@@ -154,7 +148,6 @@ export default function SignUp() {
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);
-      console.log("Error:", error);
       setError(error.message);
     }
   };

@@ -19,6 +19,7 @@ import {
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { url } from "../utils/api";
+import { toast } from "react-hot-toast";
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -150,7 +151,6 @@ export default function Profile() {
       });
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
         return;
       }
 
@@ -158,7 +158,7 @@ export default function Profile() {
         prev.filter((listing) => listing._id !== listingId)
       );
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
   return (

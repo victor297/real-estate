@@ -8,6 +8,7 @@ import ListingItem from "../components/ListingItem";
 import { useSelector } from "react-redux";
 import Header from "../components/Header";
 import { url } from "../utils/api";
+import { toast } from "react-hot-toast";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -18,13 +19,6 @@ export default function Home() {
   const [twoThreeBedroomListings, setTwoThreeBedroomListings] = useState([]);
   const [apartmentsListings, setApartmentsListings] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
-  console.log(
-    "offerListings",
-    roomSelfConListings,
-    roomAndParlourListings,
-    twoThreeBedroomListings,
-    apartmentsListings
-  );
 
   SwiperCore.use([Navigation]);
   console.log(offerListings);
@@ -36,7 +30,7 @@ export default function Home() {
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
@@ -47,7 +41,7 @@ export default function Home() {
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
@@ -58,7 +52,7 @@ export default function Home() {
         setSaleListings(data);
         fetchRoomSelfConListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
@@ -71,7 +65,7 @@ export default function Home() {
         setRoomSelfConListings(data);
         fetchRoomAndParlourListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
@@ -84,7 +78,7 @@ export default function Home() {
         setRoomAndParlourListings(data);
         fetchTwoThreeBedroomListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
@@ -97,7 +91,7 @@ export default function Home() {
         setTwoThreeBedroomListings(data);
         fetchApartmentsListings();
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
@@ -109,7 +103,7 @@ export default function Home() {
         const data = await res.json();
         setApartmentsListings(data);
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 

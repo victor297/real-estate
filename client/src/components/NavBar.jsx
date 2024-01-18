@@ -38,13 +38,13 @@ export default function Navbar() {
             oshogbo, 18 ade olu St, osun
           </div>
         </span>
-        <span className="self-stretch flex items-stretch justify-between gap-3.5">
+        <span className="self-stretch flex items-stretch justify-between gap-2">
           <MdCall color="white" size={20} />
           <div className="text-white text-right text-xs sm:text-sm leading-5 self-center grow whitespace-nowrap my-auto">
             +2349063964547
           </div>
         </span>
-        <span className=" gap-3 my-auto hidden sm:flex items-start align-middle">
+        <span className=" gap-2 my-auto hidden sm:flex items-start align-middle">
           <MdMessage color="white" size={20} />
           <div className="text-white text-right text-sm sm:leading-5 self-stretch grow whitespace-nowrap">
             homenowsupport@gmail.com
